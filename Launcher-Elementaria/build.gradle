@@ -1,0 +1,57 @@
+plugins {
+    id 'idea'
+    id 'java-library'
+    id 'application'
+    id "org.openjfx.javafxplugin" version "0.0.13"
+}
+
+apply plugin: 'org.openjfx.javafxplugin'
+
+group 'fr.straixes.launcher_elementaria'
+version '1.0.0'
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://jitpack.io/'
+        name 'JitPack'
+    }
+    maven {
+        url 'https://litarvan.github.io/maven'
+    }
+}
+
+dependencies {
+    {
+        implementation 'fr.litarvan:openauth:1+'
+        implementation 'de.jensd:fontawesomefx-fontawesome:4+'
+
+        implementation 'fr.flowarg:flowupdater:1.4+'
+        implementation 'fr.flowarg:openlauncherlib:3+'
+
+        implementation 'com.github.goxr3plus:FX-BorderlessScene:4+'
+        implementation 'com.github.oshi:oshi-core:5+'
+    }
+}
+
+javafx {
+    modules = ['javafx.controls', 'javafx.fxml', 'javafx.web', 'javafx.swing']
+}
+
+application {
+    getMainClass().set('fr.straixes.launcher_elementaria.Main')
+}
+
+compileJava {
+    options.encoding = "UTF-8"
+}
+
+jar {
+    manifest.attributes.put('Main-Class', 'fr.straixes.launcher_elementaria.Main')
+
+    from {
+        configurations.compileClasspath.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
